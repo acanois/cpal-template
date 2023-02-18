@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.69"
 cpal = "0.15.0"
+fundsp = "0.12.0"
