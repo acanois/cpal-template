@@ -1,4 +1,5 @@
 mod cpal_helpers;
+use cpal_helpers::io::AudioState;
 use cpal_helpers::io::{
     get_available_hosts,
     make_host,
@@ -12,10 +13,13 @@ fn main() {
         match host_id.name() {
             "CoreAudio" => {
                 let host = make_host(&host_id).unwrap();
-                let input = get_default_input(&host);
-                println!("{:?}", input);
-                let output = get_default_output(&host);
-                println!("{:?}", output);
+                let input = get_default_input(&host).unwrap();
+                let output = get_default_output(&host).unwrap();
+                let audio_state = AudioState { host, input, output };
+
+                println!("Host:\n\t{:?}", audio_state.host_name());
+                println!("Input\n\t{:?}", audio_state.input_name().unwrap());
+                println!("Output\n\t{:?}", audio_state.output_name().unwrap());
             },
             _ => ()
         }
