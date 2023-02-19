@@ -1,7 +1,12 @@
 extern crate anyhow;
 extern crate cpal;
 
+use cpal::HostId;
 use cpal::traits::{DeviceTrait, HostTrait};
+
+pub fn get_available_hosts() -> Vec<HostId> {
+    cpal::available_hosts()
+}
 
 pub fn enumerate_io() -> Result<(), anyhow::Error> {
     println!("All hosts: {:?}", cpal::ALL_HOSTS);
@@ -70,6 +75,5 @@ pub fn enumerate_io() -> Result<(), anyhow::Error> {
             }
         }
     }
-
     Ok(())
 }
