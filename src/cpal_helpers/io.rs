@@ -1,11 +1,23 @@
 extern crate anyhow;
 extern crate cpal;
 
-use cpal::HostId;
+use cpal::{HostId, Host};
 use cpal::traits::{DeviceTrait, HostTrait};
 
 pub fn get_available_hosts() -> Vec<HostId> {
     cpal::available_hosts()
+}
+
+pub fn make_host(host_id: &HostId) -> Result<cpal::Host, cpal::HostUnavailable> {
+    cpal::host_from_id(*host_id)
+}
+
+pub fn get_default_input(host: &Host) -> Option<String> {
+    host.default_input_device().map(|e| e.name().unwrap())
+}
+
+pub fn get_default_output(host: &Host) -> Option<String> {
+    host.default_output_device().map(|e| e.name().unwrap())
 }
 
 pub fn enumerate_io() -> Result<(), anyhow::Error> {
