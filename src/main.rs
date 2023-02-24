@@ -11,14 +11,6 @@ use cpal_helpers::io::{
     get_default_output_config,
 };
 
-fn log_state(audio_state: &AudioState) {
-    println!("Host:\n\t{:?}", audio_state.host_name());
-    println!("Input\n\t{:?}", audio_state.input_name().unwrap());
-    println!("Output\n\t{:?}", audio_state.output_name().unwrap());
-    println!("\nInput Config\n\t{:?}", audio_state.input_config);
-    println!("\nOutput Config\n\t{:?}", audio_state.output_config);
-}
-
 fn main() {
     let available_hosts = get_available_hosts();
     for host_id in available_hosts {
@@ -38,7 +30,7 @@ fn main() {
                     output_config: &output_config,
                 };
 
-                log_state(&audio_state);
+                audio_state.log_state();
             },
             _ => ()
         }

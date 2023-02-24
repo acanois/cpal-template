@@ -21,4 +21,12 @@ impl AudioState<'_> {
     pub fn output_name(&self) -> Result<String, DeviceNameError> {
         self.output_device.name()
     }
+
+    pub fn log_state(&self) {
+        println!("Host:\n\t{:?}", self.host_name());
+        println!("Input\n\t{:?}", self.input_name().unwrap());
+        println!("Output\n\t{:?}", self.output_name().unwrap());
+        println!("\nInput Config\n\t{:?}", self.input_config);
+        println!("\nOutput Config\n\t{:?}", self.output_config);
+    }
 }
