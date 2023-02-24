@@ -1,5 +1,7 @@
+mod audio_state;
 mod cpal_helpers;
-use cpal_helpers::io::AudioState;
+
+use audio_state::main_state::AudioState;
 use cpal_helpers::io::{
     get_available_hosts,
     make_host,
