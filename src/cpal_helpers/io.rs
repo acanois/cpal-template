@@ -1,13 +1,15 @@
 extern crate anyhow;
 extern crate cpal;
 
-use cpal::{Host, HostId, Device};
 use cpal::traits::{DeviceTrait, HostTrait};
+use cpal::{DefaultStreamConfigError, Device, Host, HostId, SupportedStreamConfig};
 
 pub struct AudioState<'a> {
     pub host: Host,
     pub input_device: &'a Device,
     pub output_device: &'a Device,
+    pub input_config: &'a SupportedStreamConfig,
+    pub output_config: &'a SupportedStreamConfig,
 }
 
 impl AudioState<'_> {
@@ -40,21 +42,27 @@ pub fn get_default_output(host: &Host) -> Option<Device> {
     host.default_output_device()
 }
 
-pub fn show_default_input_config(device: &Device) {
-    if let Ok(conf) = device.default_input_config() {
-        println!("\nDefault input stream config:\n      {:?}", conf);
-    }
+pub fn get_default_input_config(
+    device: &Device,
+) -> Result<cpal::SupportedStreamConfig, DefaultStreamConfigError> {
+    device.default_input_config()
+}
+
+pub fn get_default_output_config(
+    device: &Device,
+) -> Result<cpal::SupportedStreamConfig, DefaultStreamConfigError> {
+    device.default_output_config()
 }
 
 pub fn enumerate_io() -> Result<(), anyhow::Error> {
     println!("All hosts: {:?}", cpal::ALL_HOSTS);
     println!("Available hosts: {:?}", cpal::available_hosts());
-    
-    let available_hosts = cpal::available_hosts();  
+
+    let available_hosts = cpal::available_hosts();
 
     for host_id in available_hosts {
         println!("{}", host_id.name());
-        
+
         let host = cpal::host_from_id(host_id)?;
         let default_in = host.default_input_device().map(|e| e.name().unwrap());
         let default_out = host.default_output_device().map(|e| e.name().unwrap());
@@ -65,7 +73,7 @@ pub fn enumerate_io() -> Result<(), anyhow::Error> {
         println!("Devices: ");
         for (device_index, device) in devices.enumerate() {
             println!("  {}. \"{}\"", device_index, device.name()?);
-            
+
             // Input configs
             if let Ok(conf) = device.default_input_config() {
                 println!("\nDefault input stream config:\n      {:?}", conf);
@@ -80,12 +88,7 @@ pub fn enumerate_io() -> Result<(), anyhow::Error> {
             if !input_configs.is_empty() {
                 println!("All supported input stream configs:");
                 for (config_index, config) in input_configs.into_iter().enumerate() {
-                    println!(
-                        "\t{}.{}. {:?}",
-                        device_index + 1,
-                        config_index + 1,
-                        config
-                    );
+                    println!("\t{}.{}. {:?}", device_index + 1, config_index + 1, config);
                 }
             }
 
@@ -103,12 +106,7 @@ pub fn enumerate_io() -> Result<(), anyhow::Error> {
             if !output_configs.is_empty() {
                 println!("All supported output stream configs:");
                 for (config_index, config) in output_configs.into_iter().enumerate() {
-                    println!(
-                        "\t{}.{}. {:?}",
-                        device_index + 1,
-                        config_index + 1,
-                        config
-                    );
+                    println!("\t{}.{}. {:?}", device_index + 1, config_index + 1, config);
                 }
             }
         }
