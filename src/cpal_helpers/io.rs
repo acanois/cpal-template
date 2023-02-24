@@ -4,23 +4,23 @@ extern crate cpal;
 use cpal::{Host, HostId, Device};
 use cpal::traits::{DeviceTrait, HostTrait};
 
-pub struct AudioState {
+pub struct AudioState<'a> {
     pub host: Host,
-    pub input: Device,
-    pub output: Device,
+    pub input_device: &'a Device,
+    pub output_device: &'a Device,
 }
 
-impl AudioState {
+impl AudioState<'_> {
     pub fn host_name(&self) -> &str {
         self.host.id().name()
     }
 
     pub fn input_name(&self) -> Result<String, cpal::DeviceNameError> {
-        self.input.name()
+        self.input_device.name()
     }
 
     pub fn output_name(&self) -> Result<String, cpal::DeviceNameError> {
-        self.output.name()
+        self.output_device.name()
     }
 }
 
@@ -38,6 +38,12 @@ pub fn get_default_input(host: &Host) -> Option<Device> {
 
 pub fn get_default_output(host: &Host) -> Option<Device> {
     host.default_output_device()
+}
+
+pub fn show_default_input_config(device: &Device) {
+    if let Ok(conf) = device.default_input_config() {
+        println!("\nDefault input stream config:\n      {:?}", conf);
+    }
 }
 
 pub fn enumerate_io() -> Result<(), anyhow::Error> {

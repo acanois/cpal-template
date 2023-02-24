@@ -5,6 +5,7 @@ use cpal_helpers::io::{
     make_host,
     get_default_input,
     get_default_output,
+    show_default_input_config,
 };
 
 fn main() {
@@ -13,13 +14,18 @@ fn main() {
         match host_id.name() {
             "CoreAudio" => {
                 let host = make_host(&host_id).unwrap();
-                let input = get_default_input(&host).unwrap();
-                let output = get_default_output(&host).unwrap();
-                let audio_state = AudioState { host, input, output };
+                let input_device = get_default_input(&host).unwrap();
+                let output_device = get_default_output(&host).unwrap();
+                let audio_state = AudioState { 
+                    host, 
+                    input_device: &input_device, 
+                    output_device: &output_device 
+                };
 
                 println!("Host:\n\t{:?}", audio_state.host_name());
                 println!("Input\n\t{:?}", audio_state.input_name().unwrap());
                 println!("Output\n\t{:?}", audio_state.output_name().unwrap());
+                show_default_input_config(&input_device);
             },
             _ => ()
         }
