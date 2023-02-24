@@ -1,15 +1,15 @@
 use cpal::traits::DeviceTrait;
 use cpal::{Device, DeviceNameError, Host, SupportedStreamConfig};
 
-pub struct AudioState<'a> {
+pub struct AudioState {
     pub host: Host,
-    pub input_device: &'a Device,
-    pub output_device: &'a Device,
-    pub input_config: &'a SupportedStreamConfig,
-    pub output_config: &'a SupportedStreamConfig,
+    pub input_device: Device,
+    pub output_device: Device,
+    pub input_config: SupportedStreamConfig,
+    pub output_config: SupportedStreamConfig,
 }
 
-impl AudioState<'_> {
+impl AudioState {
     pub fn host_name(&self) -> &str {
         self.host.id().name()
     }

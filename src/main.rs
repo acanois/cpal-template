@@ -24,10 +24,10 @@ fn main() {
 
                 let audio_state = AudioState { 
                     host, 
-                    input_device: &input_device, 
-                    output_device: &output_device,
-                    input_config: &input_config,
-                    output_config: &output_config,
+                    input_device, 
+                    output_device,
+                    input_config,
+                    output_config,
                 };
 
                 audio_state.log_state();
