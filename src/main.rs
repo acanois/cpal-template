@@ -23,6 +23,8 @@ fn main() {
                 let output_config = get_default_output_config(&output_device).unwrap();
                 let in_sample_rate = input_config.sample_rate().0;
                 let out_sample_rate = output_config.sample_rate().0;
+                let num_input_channels = input_config.channels();
+                let num_output_channels = output_config.channels();
                 
                 let audio_state = AudioState { 
                     host, 
@@ -32,6 +34,8 @@ fn main() {
                     output_config,
                     in_sample_rate,
                     out_sample_rate,
+                    num_input_channels,
+                    num_output_channels,
                 };
 
                 audio_state.log_state();

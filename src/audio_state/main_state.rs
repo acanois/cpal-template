@@ -9,6 +9,8 @@ pub struct AudioState {
     pub output_config: SupportedStreamConfig,
     pub in_sample_rate: u32,
     pub out_sample_rate: u32,
+    pub num_input_channels: u16,
+    pub num_output_channels: u16,
 }
 
 impl AudioState {
@@ -31,6 +33,6 @@ impl AudioState {
         println!("\nInput Config\n\t{:?}", self.input_config);
         println!("\nOutput Config\n\t{:?}", self.output_config);
         println!("\nIn Sample Rate\n\t{:?}", self.in_sample_rate);
-        println!("\nOut Sample Rate\n\t{:?}", self.out_sample_rate);
+        println!("Out Sample Rate\n\t{:?}", self.out_sample_rate);
     }
 }
