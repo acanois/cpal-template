@@ -14,6 +14,30 @@ pub struct AudioState {
 }
 
 impl AudioState {
+    pub fn new(
+        host: Host,
+        input_device: Device,
+        output_device: Device,
+        input_config: SupportedStreamConfig,
+        output_config: SupportedStreamConfig,
+        in_sample_rate: u32,
+        out_sample_rate: u32,
+        num_input_channels: u16,
+        num_output_channels: u16,
+    ) -> AudioState {
+        AudioState {
+            host,
+            input_device,
+            output_device,
+            input_config,
+            output_config,
+            in_sample_rate,
+            out_sample_rate,
+            num_input_channels,
+            num_output_channels,
+        }
+    }
+
     pub fn host_name(&self) -> &str {
         self.host.id().name()
     }
