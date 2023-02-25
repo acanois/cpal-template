@@ -7,6 +7,8 @@ pub struct AudioState {
     pub output_device: Device,
     pub input_config: SupportedStreamConfig,
     pub output_config: SupportedStreamConfig,
+    pub in_sample_rate: u32,
+    pub out_sample_rate: u32,
 }
 
 impl AudioState {
