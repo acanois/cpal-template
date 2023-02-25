@@ -81,10 +81,12 @@ fn main() {
 
     audio_state.log_state();
 
-    debug_beep::<f32>(
+    match debug_beep::<f32>(
         &audio_state.output_device, 
         &audio_state.output_config.into(), 
         audio_state.out_sample_rate, 
         audio_state.num_output_channels
-    );
+    ) {
+        _ => ()
+    }
 }
