@@ -7,10 +7,10 @@ pub struct AudioState {
     pub output_device: Device,
     pub input_config: SupportedStreamConfig,
     pub output_config: SupportedStreamConfig,
-    pub in_sample_rate: u32,
-    pub out_sample_rate: u32,
-    pub num_input_channels: u16,
-    pub num_output_channels: u16,
+    pub in_sample_rate: f32,
+    pub out_sample_rate: f32,
+    pub num_input_channels: usize,
+    pub num_output_channels: usize,
 }
 
 impl AudioState {
@@ -20,10 +20,10 @@ impl AudioState {
         output_device: Device,
         input_config: SupportedStreamConfig,
         output_config: SupportedStreamConfig,
-        in_sample_rate: u32,
-        out_sample_rate: u32,
-        num_input_channels: u16,
-        num_output_channels: u16,
+        in_sample_rate: f32,
+        out_sample_rate: f32,
+        num_input_channels: usize,
+        num_output_channels: usize,
     ) -> AudioState {
         AudioState {
             host,
